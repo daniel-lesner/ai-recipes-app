@@ -22,7 +22,7 @@ export function InputWithButton({ handleInputSubmit }) {
   };
 
   return (
-    <div className="w-full md:w-1/3 mx-auto">
+    <div className="w-full md:w-1/2 lg:w-1/3 mx-auto">
       <div className="relative">
         <form onSubmit={onInputSubmit}>
           <Input
