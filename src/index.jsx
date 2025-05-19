@@ -23,7 +23,7 @@ createRoot(document.getElementById("root")).render(
               </>
             }
           />
-          <Route path="/recipe/:id" element={<></>} />
+          <Route path="/recipe/:id" element={<Recipe />} />
         </Routes>
       </BrowserRouter>
 

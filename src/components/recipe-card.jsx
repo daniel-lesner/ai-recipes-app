@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
-import { toast } from "sonner";
 import { useStore } from "@/store/store";
 
 export default function RecipeCard({ recipeId }) {
@@ -9,13 +8,6 @@ export default function RecipeCard({ recipeId }) {
   const recipe = useStore((state) => {
     return state.recipes.find((recipe) => recipe.id === recipeId);
   });
-
-  const handleHeartOnClick = () => {
-    toast.success(
-      `Recipe has been ${recipe.isFavorite ? "removed" : "added"} successfully!`,
-    );
-    toggleFavorite(recipe.id);
-  };
 
   return (
     <div className="flex items-center bg-gray-200 rounded-2xl p-4 shadow-md w-full">
@@ -31,7 +23,7 @@ export default function RecipeCard({ recipeId }) {
         </div>
       </Link>
       <Heart
-        onClick={handleHeartOnClick}
+        onClick={() => toggleFavorite(recipe)}
         className={`w-5 h-5 cursor-pointer ${recipe.isFavorite ? "fill-purple-700" : "fill-gray-400"}`}
       />
     </div>

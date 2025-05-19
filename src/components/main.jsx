@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { useTanstackQuery } from "@/hooks/useTanstackQuery";
 
 export default function Main() {
-  const { prompt, recipes, lastRecipes, isLoading } = useStore();
+  const { prompt, setPrompt, recipes, lastRecipes, setLastRecipes, isLoading } =
+    useStore();
   const { mutate } = useTanstackQuery();
 
   const favoriteRecipes = recipes.filter((recipe) => recipe.isFavorite);
@@ -18,15 +19,27 @@ export default function Main() {
     );
   };
 
+  const resetSearch = () => {
+    setPrompt("");
+    setLastRecipes([]);
+  };
+
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-12 px-4">
-      {lastRecipes ? (
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-16 px-4">
+      {lastRecipes.length ? (
         <>
+          <Button
+            onClick={resetSearch}
+            className="absolute top-30 left-4 bg-white px-4 py-2 rounded-lg shadow text-sm md:text-md font-medium bg-orange-500 hover:bg-orange-600 cursor-pointer"
+          >
+            Favorites
+          </Button>
           <RecipesContainer recipes={lastRecipes} title="Suggested Recipes" />
           <Button
-            className="bg-purple-600 text-white font-semibold mt-8 px-6 py-2 rounded-xl hover:bg-purple-700 transition cursor-pointer"
+            type="button"
+            className="bg-purple-600 text-white font-semibold mt-8 px-6 py-2 rounded-xl hover:bg-purple-700 transition"
             onClick={refreshSuggestions}
           >
             I don't like these

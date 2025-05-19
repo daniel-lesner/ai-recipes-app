@@ -18,7 +18,7 @@ export function ApiKeyInput() {
         <Input
           name="apiKey"
           type="text"
-          placeholder="Please enter your Groq API key and press enter to continue"
+          placeholder="Paste your Groq API and press Enter"
           className="pr-20 rounded-full"
         />
       </form>

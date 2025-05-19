@@ -24,11 +24,11 @@ export const useTanstackQuery = () => {
             {
               role: "system",
               content:
-                "Your response must simulate an API. Please return only a valid, parseable JSON and nothing else. Make sure you don't miss any characters that will make JSON.parse(response) return errors. For minutes, just return the number. For image, make sure that you return a valid URL. For steps, return an array of strings.",
+                "Your response must simulate an API. Please return only a valid, parseable JSON and nothing else. Make sure you don't miss any characters that will make JSON.parse(response) return errors. For minutes, just return the number. For image, make sure that you return a valid URL. For ingredients and steps, return an array of strings.",
             },
             {
               role: "user",
-              content: `Get me a list of 5 recipes with their names, time, image (provide real image, could be something related to the recipe) and steps using this as prompt: ${message}`,
+              content: `Get me a list of 5 recipes with their names, time, image (provide real image, could be something related to the recipe), ingredients and steps using this as prompt: ${message}`,
             },
           ],
         },
@@ -46,7 +46,7 @@ export const useTanstackQuery = () => {
     onSuccess: (data) => {
       const newRecipes = data.map((recipe) => ({
         ...recipe,
-        id: crypto.randomUUID(),
+        id: Math.random().toString(36).slice(2),
         isFavorite: false,
       }));
 
@@ -59,7 +59,7 @@ export const useTanstackQuery = () => {
     },
     retry: (count, error) => {
       if ([401, 403, 422].includes(error?.response?.status)) {
-        toast.error("Invalid API key. Please re-enter it");
+        toast.error("Invalid API key. Please re-enter it!");
         setApiKey("");
         setPrompt("");
         return false;
