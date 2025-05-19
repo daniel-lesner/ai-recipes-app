@@ -4,7 +4,8 @@ import axios from "axios";
 import { useStore } from "@/store/store";
 
 export const useTanstackQuery = () => {
-  const { apiKey, setLastRecipes, setIsLoading } = useStore();
+  const { apiKey, setApiKey, setPrompt, setLastRecipes, setIsLoading } =
+    useStore();
 
   return useMutation({
     mutationFn: async (message) => {
@@ -40,9 +41,22 @@ export const useTanstackQuery = () => {
       setIsLoading(false);
     },
     onError: () => {
-      toast.error("Something went wrong. Please try again");
       setIsLoading(false);
     },
-    retry: 5,
+    retry: (count, error) => {
+      if ([401, 403, 422].includes(error?.response?.status)) {
+        toast.error("Invalid API key. Please re-enter it");
+        setApiKey("");
+        setPrompt("");
+        return false;
+      }
+
+      count++;
+
+      if (count < 5) return true;
+
+      toast.error("Something went wrong. Please try again");
+      return false;
+    },
   });
 };
