@@ -21,7 +21,7 @@ export default function Main() {
   if (isLoading) return <Spinner />;
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-12 px-4">
       {lastRecipes ? (
         <>
           <RecipesContainer recipes={lastRecipes} title="Suggested Recipes" />
@@ -46,6 +46,6 @@ export default function Main() {
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
