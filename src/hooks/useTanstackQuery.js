@@ -4,8 +4,15 @@ import axios from "axios";
 import { useStore } from "@/store/store";
 
 export const useTanstackQuery = () => {
-  const { apiKey, setApiKey, setPrompt, setLastRecipes, setIsLoading } =
-    useStore();
+  const {
+    apiKey,
+    setApiKey,
+    setPrompt,
+    recipes,
+    setRecipes,
+    setLastRecipes,
+    setIsLoading,
+  } = useStore();
 
   return useMutation({
     mutationFn: async (message) => {
@@ -37,7 +44,14 @@ export const useTanstackQuery = () => {
     },
     onMutate: () => setIsLoading(true),
     onSuccess: (data) => {
-      setLastRecipes(data);
+      const newRecipes = data.map((recipe) => ({
+        ...recipe,
+        id: crypto.randomUUID(),
+        isFavorite: false,
+      }));
+
+      setRecipes([...recipes, ...newRecipes]);
+      setLastRecipes(newRecipes);
       setIsLoading(false);
     },
     onError: () => {
